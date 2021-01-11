@@ -3,7 +3,7 @@
 #include <string.h>
 
 typedef struct{
-    unsigned int day : 1,month : 1 ,year : 2;
+    unsigned int day,month,year;
 } Date ;
 
 typedef struct{

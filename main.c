@@ -44,7 +44,7 @@ void query()
 {
     int x,i,j,sum=0;
     char str[20];
-    printf("please enter the number needed to search for:  ");
+    printf("please enter the student last name needed to search for:  ");
     scanf("%s",&str);
     for(i=0; i<count; i++)
     {

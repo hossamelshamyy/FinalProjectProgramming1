@@ -1,7 +1,7 @@
 # FinalProjectProgramming1
 
-Hossam -> main , add
-Mina -> save , quit
-Islam -> print , report
-Hendawy -> delete , modify
-Abdullah -> load , query
+Hossam -> main , add</br>
+Mina -> save , quit</br>
+Islam -> print , report</br>
+Hendawy -> delete , modify</br>
+Abdullah -> load , query</br>

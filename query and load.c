@@ -61,13 +61,15 @@ void query()
                 printf("%s  ",s[i].phone_no);
                 printf("%s  ",s[i].email);
                 printf("\n");
-
+sum++;
             }
         }
          if(!sum) {
             printf("The last name is not exist :( \n");
            }
            }
+
+
 
 
 

@@ -3,40 +3,122 @@
 #include <string.h>
 typedef struct
 {
-    int day;
-    int mon;
-    int yr;
-} DOB;
+    int day,month,year;
+} Date;
+
 typedef struct
 {
-    char firstname[20];
-    char lastname[20];
-    char address[100];
-    char email[40];
-    char phone_no[11];
-    DOB birth;
+    char *firstname,*lastname,*address,*email,*phone_no;
+    Date* birth;
 } Contact;
-Contact c[100];
-int count=0;
+
+Contact* c[100];
+static int count=-1;
+int isSaved = 0;
+
+int validatePhone(char* phoe){
+    if(phoe[0] == '0'){
+        if(phoe[1] == '1' && strlen(phoe) == 11)
+            return 1;
+        else if(phoe[1] != '0' && strlen(phoe) == 9)
+            return 1;
+    }
+    return 0;
+}
+int validateMail(char* mail){
+    int atCouter = 0;
+    int dotCounter = 0;
+    int len = strlen(mail);
+    for(int i = 0;i<len ; i++){
+        if(mail[i] == '@'){
+            if(i<=len-3)
+                atCouter++;
+            else return 0;
+        }
+        else if(mail[i] == '.'){
+            if(i <= len-2)
+                dotCounter++;
+            else return 0;
+        }
+    }
+    if(atCouter == 1 && dotCounter ==1)
+        return 1;
+    return 0;
+
+}
+
+int validateDate(int day,int month,int year){
+    if(year>=1900 && year<=2021){
+        //check month
+        if(month>=1 && month<=12){
+            //check days
+            if((day>=1 && day<=31) && (month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12))
+                return 1;
+            else if((day>=1 && day<=30) && (month==4 || month==6 || month==9 || month==11))
+                return 1;
+            else if((day>=1 && day<=28) && (month==2))
+                return 1;
+            else if(day==29 && month==2 && (year%400==0 ||(year%4==0 && year%100!=0)))
+                return 1;
+            else
+                return 0;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+}
+Date* createDate(int day,int month,int year){
+    if(validateDate(day,month,year)){
+    Date * date = malloc(sizeof(Date));
+    date->day = day;
+    date->month = month;
+    date->year = year;
+    return date;
+    }
+    else return 0;
+}
+
+Contact* createContact(char* firstname,char* lastname,char* address,char* email,char* phone_no,Date* birth){
+    Contact* contanct = malloc(sizeof(Contact));
+    contanct->firstname = firstname;
+    contanct->lastname = lastname;
+    contanct->address = address;
+    contanct->email = email;
+    contanct->phone_no = phone_no;
+    contanct->birth = birth;
+    return contanct;
+}
+
 void load()
 {
     FILE*f;
-    f=fopen("Contacts.txt","r");
+    f=fopen("/home/hossam/Workplace/QtProjects/FinalProjectProgramming1/info.txt","r");
     if (f == NULL)
-{
-    printf("Error! opening file");
+    {
+        printf("Error! opening file");
         exit(1);
     }
+
     while(!feof(f))
-{
-    fscanf(f,"%[^,],",c[count].firstname);
-        fscanf(f,"%[^,],",c[count].lastname);
-        fscanf(f,"%d-%d-%d,",&c[count].birth.day,&c[count].birth.mon,&c[count].birth.yr);
-        fscanf(f,"%[^,],",c[count].address);
-        fscanf(f,"%[^,],",c[count].phone_no);
-        fscanf(f,"%s",c[count].email);
+    {
         count++;
+        char *firstname = malloc(sizeof (char*)),*lastname = malloc(sizeof (char*)),*address = malloc(sizeof (char*)),*email = malloc(sizeof (char*)),*phone_no = malloc(sizeof (char*));
+        int day,month,year;
+        fscanf(f,"%[^,],",firstname);
+        fscanf(f,"%[^,],",lastname);
+        fscanf(f,"%d-%d-%d,",&day,&month,&year);
+        fscanf(f,"%[^,],",address);
+        fscanf(f,"%[^,],",phone_no);
+        fscanf(f,"%s",email);
+        c[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year));
     }
+
     fclose(f);
 
 }
@@ -44,48 +126,85 @@ void load()
 
 void query()
 {
-    int x,i,j,sum=0;
-    char str[20];
+    int i,sum=0;
+    char *str = malloc(sizeof (char*));
     printf("please enter the student last name needed to search for:  ");
-    scanf("%s",&str);
-    for(i=0; i<count; i++)
-    {
-        if(!strcmp(str,c[i].lastname)){
-
-                printf("the info of the student:\n");
-                printf("%s  ",c[i].firstname);
-                printf("%s   ",c[i].lastname);
-                printf("%d  ",c[i].birth.day);
-                printf("%d  ",c[i].birth.mon);
-                printf("%d  ",c[i].birth.yr);
-                printf("%s  ",c[i].address);
-                printf("%s  ",c[i].phone_no);
-                printf("%s  ",c[i].email);
-                printf("\n");
-                sum++;
-            }
+    scanf("%s",str);
+    for(i=0; i<=count; i++){
+        if(!strcmp(str,c[i]->lastname)){
+            //printf("The info of the contact: %s %s %d %d %d %s %s %s\n",c[i]->firstname,c[i]->lastname,c[i]->birth->day,c[i]->birth->month,c[i]->birth->year,c[i]->address,c[i]->phone_no,c[i]->email);
+            printf("The info of the contact: ");
+            printf("%s  ",c[i]->firstname);
+            printf("%s  ",c[i]->lastname);
+            printf("%d  ",c[i]->birth->day);
+            printf("%d  ",c[i]->birth->month);
+            printf("%d  ",c[i]->birth->year);
+            printf("%s  ",c[i]->address);
+            printf("%s  ",c[i]->phone_no);
+            printf("%s\n",c[i]->email);
+            sum++;
+        }
     }
-         if(!sum) {
-            printf("The last name is not exist :( \n");
-           }
+    if(!sum) {
+        printf("The last name is not exist :( \n");
+    }
+
+}
+void add(){
+    char *firstname = malloc(sizeof (char*)),*lastname = malloc(sizeof (char*)),*address = malloc(sizeof (char*)),*email = malloc(sizeof (char*)),*phone = malloc(sizeof (char*));
+    int day,month,year;
+    printf("First name : ");
+    scanf("%s",firstname);
+    printf("Last name : ");
+    scanf("%s",lastname);
+    printf("Address : ");
+    scanf("%s",address);
+    printf("email : ");
+    scanf("%s",email);
+    while(!validateMail(email)){
+        printf("please enter correct email : ");
+        scanf("%s",email);
+    }
+    printf("Phone : ");
+    scanf("%s",phone);
+    while(!validatePhone(phone)){
+        printf("please enter correct phone number : ");
+        scanf("%s",phone);
+    }
+    printf("Birth day : ");
+    scanf("%d",&day);
+    printf("Birth month : ");
+    scanf("%d",&month);
+    printf("Birth year : ");
+    scanf("%d",&year);
+    while(!validateDate(day,month,year)){
+        printf("You entered inccorect date please try again \n");
+        printf("Birth day : ");
+        scanf("%d",&day);
+        printf("Birth month : ");
+        scanf("%d",&month);
+        printf("Birth year : ");
+        scanf("%d",&year);
+    }
+    count++;
+    c[count] = createContact(firstname,lastname,address,strcat(email,"\n"),phone,createDate(day,month,year));
+    printf("Contact added successfully.\n");
 }
 
-int isSaved = 0;
 int save()
 {
     FILE*f;
-    f=fopen("Contacts.txt","w");
-   int i;
-   for ( i = 0; i < count; i++)
-   {
-        fprintf(f,"%s,",c[i].firstname);
-        fprintf(f,"%s,",c[i].lastname);
-        fprintf(f,"%d-%d-%d,",&c[i].birth.day,&c[i].birth.mon,&c[i].birth.yr);
-        fprintf(f,"%s,",c[i].address);
-        fprintf(f,"%s,",c[i].phone_no);
-        fprintf(f,"%s\n",c[i].email);      
-   }
-   isSaved=1;
+    f=fopen("/home/hossam/Workplace/QtProjects/FinalProjectProgramming1/saved.txt","w");
+    int i;
+    for ( i = 0; i <= count ; i++){
+        fprintf(f,"%s,",c[i]->firstname);
+        fprintf(f,"%s,",c[i]->lastname);
+        fprintf(f,"%d-%d-%d,",c[i]->birth->day,c[i]->birth->month,c[i]->birth->year);
+        fprintf(f,"%s,",c[i]->address);
+        fprintf(f,"%s,",c[i]->phone_no);
+        fprintf(f,"%s",c[i]->email);
+    }
+    isSaved=1;
     fclose(f);
     return isSaved ;
 }
@@ -96,16 +215,15 @@ void quit(){
         exit(0);
     }else{
         char answer[2] ;
-        int i;
         printf("Warning!! your changes will be discarded\n NOTE: answer as follow\n do you want to exit anyways(y/n) ? ");
         scanf("%s",answer);
         if (!strcmp(answer , "y"))
         {
-            exit(0); 
+            exit(0);
         }
         
         
-    }   
+    }
 }
 
 
@@ -138,13 +256,13 @@ int main()
 
         switch (choice) {
         case 1:
-            // load();
+            load();
             break;
         case 2:
-            // search();
+            query();
             break;
         case 3:
-            // add();
+            add();
             break;
         case 4:
             // delete();
@@ -156,10 +274,10 @@ int main()
             // print();
             break;
         case 7:
-            // save();
+             save();
             break;
         case 8:
-            // quit();
+             quit();
             break;
         }
     }

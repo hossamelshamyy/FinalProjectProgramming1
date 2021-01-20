@@ -21,7 +21,7 @@ int count=0;
 void load()
 {
     FILE*f;
-    f=fopen("info.txt","r");
+    f=fopen("Contacts.txt","r");
     if (f == NULL)
 {
     printf("Error! opening file");

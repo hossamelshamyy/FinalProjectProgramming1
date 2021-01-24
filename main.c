@@ -190,6 +190,125 @@ void add(){
     printf("Contact added successfully.\n");
 }
 
+void Swapcontact(Contact*c, Contact*c2)
+{
+    char *s = malloc(sizeof(char*));
+    int *A1 = malloc(sizeof(int*));
+
+    strcpy(s,c->lastname);
+    strcpy(c->lastname,c2->lastname);
+    strcpy(c2->lastname,s);
+    strcpy(s,c->firstname);
+    strcpy(c->firstname,c2->firstname);
+    strcpy(c2->firstname,s);
+    *A1 = c->birth->year;
+    c->birth->year =c2->birth->year;
+    c2->birth->year = *A1;
+    *A1 = c->birth->month;
+    c->birth->month =c2->birth->month;
+    c2->birth->month = *A1;
+    *A1 = c->birth->day;
+    c->birth->day =c2->birth->day;
+    c2->birth->day = *A1;
+    strcpy(s,c->address);
+    strcpy(c->address,c2->address);
+    strcpy(c2->address,s);
+    strcpy(s,c->email);
+    strcpy(c->email,c2->email);
+    strcpy(c2->email,s);
+    strcpy(s,c->phone);
+    strcpy(c->phone,c2->phone);
+    strcpy(c2->phone,s);
+}
+
+void SortByLname()
+{
+  int i=0, j=0;
+
+  for(i=0; i<=count; i++)
+  {
+    for(j=i+1; j<count; j++)
+    {
+      if(strcmp(c[i]->lastname,c[j]->lastname)>0)
+      {
+        Swapcontact(c[i],c[j]);
+      }
+  }
+}
+  for(i=0; i<=count; i++){
+    printf("%s,",c[i]->firstname);
+    printf("%s,",c[i]->lastname);
+    printf("%d-",c[i]->birth->day);
+    printf("%d-",c[i]->birth->month);
+    printf("%d,",c[i]->birth->year);
+    printf("%s,",c[i]->address);
+    printf("%s,",c[i]->phone);
+    printf("%s\n",c[i]->email);
+        
+  }
+}
+
+void SortByDOB()
+{
+  int i=0, j=0;
+
+  for(i=0; i<=count; i++)
+  {
+    for(j=i+1; j<count; j++)
+    {
+      if(c[i]->birth->year > c[j]->birth->year)
+      {
+        Swapcontact(c[i],c[j]);
+      }
+      else if (c[i]->birth->year == c[j]->birth->year)
+      {
+        if(c[i]->birth->month > c[j]->birth->month)
+        {
+          Swapcontact(c[i],c[j]);
+        }
+        else if (c[i]->birth->month == c[j]->birth->month)
+        {
+          if(c[i]->birth->day > c[j]->birth->day)
+          {
+            Swapcontact(c[i],c[j]);
+          }
+        }  
+      }
+  }
+}
+
+for(i=0; i<=count; i++){
+    printf("%s,",c[i]->firstname);
+    printf("%s,",c[i]->lastname);
+    printf("%d-",c[i]->birth->day);
+    printf("%d-",c[i]->birth->month);
+    printf("%d,",c[i]->birth->year);
+    printf("%s,",c[i]->address);
+    printf("%s,",c[i]->phone);
+    printf("%s\n",c[i]->email);
+        
+  }
+
+}
+
+void print ()
+{
+  int choice = 0;
+  printf("Choose the sorting type:\n1-Sort by Last Name  2-Sort by date of birth\n");
+  while (choice != 1 && choice != 2){
+    scanf("%d",&choice);
+    if (choice == 1){
+      SortByLname();
+      break;
+    }
+    else if (choice == 2){
+      SortByDOB();
+      break;
+    }
+    printf("Please choose a valid option (1 or 2)\n");
+  }    
+}
+
 int save()
 {
     FILE*f;

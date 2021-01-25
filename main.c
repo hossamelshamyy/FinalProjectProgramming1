@@ -484,10 +484,10 @@ int main()
             add();
             break;
         case 4:
-            // delete();
+            delete();
             break;
         case 5:
-            // modify();
+            modify();
             break;
         case 6:
             print();

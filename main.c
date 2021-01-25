@@ -267,6 +267,131 @@ for(i=0; i<=count; i++){
 
 }
 
+void delete (){
+  int i,sum=0;
+    char *str = malloc(sizeof (char*));
+    printf("please enter the first name needed to delete the contact:  ");
+    scanf("%s",str);
+    char *str1 = malloc(sizeof (char*));
+    printf("please enter the last name needed to delete the contact:  ");
+    scanf("%s",str1);
+    int g;
+     char nullStr[20] = {"\0"};
+     for(i=0; i<=count; i++){
+        if(!strcmp(str,c[i]->firstname)&&!strcmp(str1,c[i]->lastname))
+        {
+          
+            printf("The info of the contact: ");
+            printf("%s,",c[i]->firstname);
+            printf("%s,",c[i]->lastname);
+            printf("%d-",c[i]->birth->day);
+            printf("%d-",c[i]->birth->month);
+            printf("%d,",c[i]->birth->year);
+            printf("%s,",c[i]->address);
+            printf("%s,",c[i]->phone);
+            printf("%s\n",c[i]->email);
+            sum++;
+            printf("Are you sure to delete this contact?\n yes=1 $$ no=2\n");
+            scanf("%d",&g);
+            if(g==1){
+              if(i==count){
+              count--;
+              printf("Contact is deleted!!");
+              break;
+              }
+              while(i<count){
+                c[i]->firstname=c[i+1]->firstname;
+                c[i]->lastname=c[i+1]->lastname;
+                c[i]->birth->day=c[i+1]->birth->day;
+                c[i]->birth->month=c[i+1]->birth->month;
+                c[i]->birth->year=c[i+1]->birth->year;
+                c[i]->address=c[i+1]->address;
+                c[i]->phone=c[i+1]->phone;
+                c[i]->email=c[i+1]->email;
+                i++;
+                
+              }
+              printf("Contact is deleted!!");
+            }
+        }
+    }
+    if(!sum) {
+        printf("The name is not exist :( \n");
+    }
+}
+
+void modify()
+{
+int i,sum=0;
+    char *str = malloc(sizeof (char*));
+    printf("please enter the student last name needed to search for:  ");
+    scanf("%s",str);
+    int g;
+     char nullStr[20] = {"\0"};
+     for(i=0; i<=count; i++){
+        if(!strcmp(str,c[i]->lastname))
+        {
+          printf("what do you want to modify:\n  1->first name \n 2-> last name \n 3->address \n 4->email \n 5-> phone \n 6-> bithday ");
+int f;
+scanf("%d",&f);
+          switch(f){
+            case 1:
+            printf("First name : ");
+    scanf("%s",c[i]->firstname);
+break;
+case 2:
+printf("Last name : ");
+    scanf("%s",c[i]->lastname);
+    break;
+    case 3:
+    printf("Address : ");
+    getchar();
+    gets(c[i]->address);
+    break;
+    case 4:
+    printf("email : ");
+    scanf("%s",c[i]->email);
+    while(!validateMail(c[i]->email)){
+      
+        printf("please enter correct email : ");
+        scanf("%s",c[i]->email);
+    }
+    break;
+    case 5:
+printf("Phone : ");
+    scanf("%s",c[i]->phone);
+    while(!validatePhone(c[i]->phone)){
+        printf("please enter correct phone number : ");
+        scanf("%s",c[i]->phone);
+    }
+    break;
+    case 6:
+printf("Birth day : ");
+    scanf("%d",&c[i]->birth->day);
+    printf("Birth month : ");
+    scanf("%d",&c[i]->birth->month);
+    printf("Birth year : ");
+    scanf("%d",&c[i]->birth->year);
+    while(!validateDate(c[i]->birth->day,c[i]->birth->month,c[i]->birth->year)){
+        printf("You entered inccorect date please try again \n");
+        printf("Birth day : ");
+        scanf("%d",&c[i]->birth->day);
+        printf("Birth month : ");
+        scanf("%d",&c[i]->birth->month);
+        printf("Birth year : ");
+        scanf("%d",&c[i]->birth->year);
+    }
+break;
+    
+          }
+
+            }
+        else 
+        printf("The name is not exist :( \n");
+    }
+    
+}
+
 void print ()
 {
   int choice = 0;

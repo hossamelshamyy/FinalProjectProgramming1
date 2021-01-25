@@ -365,7 +365,7 @@ int main()
             // modify();
             break;
         case 6:
-            // print();
+            print();
             break;
         case 7:
             save();

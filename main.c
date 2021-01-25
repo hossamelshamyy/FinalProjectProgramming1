@@ -192,33 +192,9 @@ void add(){
 
 void Swapcontact(Contact*c, Contact*c2)
 {
-    char *s = malloc(sizeof(char*));
-    int *A1 = malloc(sizeof(int*));
-
-    strcpy(s,c->lastname);
-    strcpy(c->lastname,c2->lastname);
-    strcpy(c2->lastname,s);
-    strcpy(s,c->firstname);
-    strcpy(c->firstname,c2->firstname);
-    strcpy(c2->firstname,s);
-    *A1 = c->birth->year;
-    c->birth->year =c2->birth->year;
-    c2->birth->year = *A1;
-    *A1 = c->birth->month;
-    c->birth->month =c2->birth->month;
-    c2->birth->month = *A1;
-    *A1 = c->birth->day;
-    c->birth->day =c2->birth->day;
-    c2->birth->day = *A1;
-    strcpy(s,c->address);
-    strcpy(c->address,c2->address);
-    strcpy(c2->address,s);
-    strcpy(s,c->email);
-    strcpy(c->email,c2->email);
-    strcpy(c2->email,s);
-    strcpy(s,c->phone);
-    strcpy(c->phone,c2->phone);
-    strcpy(c2->phone,s);
+    Contact temp = *c;
+    *c = *c2;
+    *c2 = temp; 
 }
 
 void SortByLname()

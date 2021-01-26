@@ -13,7 +13,6 @@ typedef struct
 } Contact;
 
 Contact* c[100];
-Contact* temp[100];
 static int count= -1;
 int isSaved = 0;
 
@@ -115,8 +114,7 @@ void load()
         fscanf(f,"%[^,],",address);
         fscanf(f,"%[^,],",phone_no);
         fscanf(f,"%s",email);
-        c[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year));
-        temp[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year));
+        c[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year))
     }
     
     fclose(f);
@@ -206,22 +204,22 @@ void SortByName()
     {
         for(j=i+1; j<count+1; j++)
         {
-            if(strcmp(temp[i]->lastname,temp[j]->lastname)>0)
+            if(strcmp(c[i]->lastname,c[j]->lastname)>0)
             {
-                Swapcontact(temp[i],temp[j]);
+                Swapcontact(c[i],c[j]);
             }
         }
     }
     
     for(i=0; i<=count; i++){
-        printf("%s,",temp[i]->firstname);
-        printf("%s,",temp[i]->lastname);
-        printf("%d-",temp[i]->birth->day);
-        printf("%d-",temp[i]->birth->month);
-        printf("%d,",temp[i]->birth->year);
-        printf("%s,",temp[i]->address);
-        printf("%s,",temp[i]->phone);
-        printf("%s\n",temp[i]->email);
+        printf("%s,",c[i]->firstname);
+        printf("%s,",c[i]->lastname);
+        printf("%d-",c[i]->birth->day);
+        printf("%d-",c[i]->birth->month);
+        printf("%d,",c[i]->birth->year);
+        printf("%s,",c[i]->address);
+        printf("%s,",c[i]->phone);
+        printf("%s\n",c[i]->email);
     }
 }
 
@@ -233,21 +231,21 @@ void SortByDOB()
     {
         for(j=i+1; j<count+1; j++)
         {
-            if(temp[i]->birth->year > temp[j]->birth->year)
+            if(c[i]->birth->year > c[j]->birth->year)
             {
-                Swapcontact(temp[i],temp[j]);
+                Swapcontact(c[i],c[j]);
             }
-            else if (temp[i]->birth->year == temp[j]->birth->year)
+            else if (c[i]->birth->year == c[j]->birth->year)
             {
-                if(temp[i]->birth->month > temp[j]->birth->month)
+                if(c[i]->birth->month > c[j]->birth->month)
                 {
-                    Swapcontact(temp[i],temp[j]);
+                    Swapcontact(c[i],c[j]);
                 }
-                else if (temp[i]->birth->month == temp[j]->birth->month)
+                else if (c[i]->birth->month == c[j]->birth->month)
                 {
-                    if(temp[i]->birth->day > temp[j]->birth->day)
+                    if(c[i]->birth->day > c[j]->birth->day)
                     {
-                        Swapcontact(temp[i],temp[j]);
+                        Swapcontact(c[i],c[j]);
                     }
                 }
             }
@@ -255,14 +253,14 @@ void SortByDOB()
     }
     
     for(i=0; i<=count; i++){
-        printf("%s,",temp[i]->firstname);
-        printf("%s,",temp[i]->lastname);
-        printf("%d-",temp[i]->birth->day);
-        printf("%d-",temp[i]->birth->month);
-        printf("%d,",temp[i]->birth->year);
-        printf("%s,",temp[i]->address);
-        printf("%s,",temp[i]->phone);
-        printf("%s\n",temp[i]->email);
+        printf("%s,",c[i]->firstname);
+        printf("%s,",c[i]->lastname);
+        printf("%d-",c[i]->birth->day);
+        printf("%d-",c[i]->birth->month);
+        printf("%d,",c[i]->birth->year);
+        printf("%s,",c[i]->address);
+        printf("%s,",c[i]->phone);
+        printf("%s\n",c[i]->email);
         
     }
     

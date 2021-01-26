@@ -145,7 +145,7 @@ void query()
         }
     }
     if(!sum) {
-        printf("The last name is not exist :( \n");
+        printf("The last name does not exist :( \n");
     }
     
 }
@@ -316,7 +316,7 @@ void delete (){
         }
     }
     if(!sum) {
-        printf("The name is not exist :( \n");
+        printf("The name does not exist :( \n");
     }
 }
 
@@ -388,7 +388,7 @@ void modify()
             break;
         }
     }
-    if(flag) printf("The name is not exist :( \n");
+    if(flag) printf("The name does not exist :( \n");
     
     
 }

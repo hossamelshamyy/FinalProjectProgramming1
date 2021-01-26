@@ -13,7 +13,7 @@ typedef struct
 } Contact;
 
 Contact* c[100];
-static int count=-1;
+static int count= -1;
 int isSaved = 0;
 
 int validatePhone(char* phone){
@@ -44,7 +44,7 @@ int validateMail(char* mail){
     if(atCouter == 1 && dotCounter ==1)
         return 1;
     return 0;
-
+    
 }
 
 int validateDate(int day,int month,int year){
@@ -96,13 +96,13 @@ Contact* createContact(char* firstname,char* lastname,char* address,char* email,
 void load()
 {
     FILE*f;
-    f=fopen("/home/hossam/Workplace/QtProjects/FinalProjectProgramming1/info.txt","r");
+    f=fopen("/home/hossam/Workplace/QtProjects/FinalProjectProgramming1/tt.txt","r");
     if (f == NULL)
     {
         printf("Error! opening file");
         exit(1);
     }
-
+    
     while(!feof(f))
     {
         count++;
@@ -116,11 +116,10 @@ void load()
         fscanf(f,"%s",email);
         c[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year));
     }
-
+    
     fclose(f);
-
+    
 }
-
 
 void query()
 {
@@ -146,7 +145,7 @@ void query()
     if(!sum) {
         printf("The last name is not exist :( \n");
     }
-
+    
 }
 void add(){
     char *firstname = malloc(sizeof (char*)),*lastname = malloc(sizeof (char*)),*address = malloc(sizeof (char*)),*email = malloc(sizeof (char*)),*phone = malloc(sizeof (char*));
@@ -194,81 +193,81 @@ void Swapcontact(Contact*c, Contact*c2)
 {
     Contact temp = *c;
     *c = *c2;
-    *c2 = temp; 
+    *c2 = temp;
 }
 
-void SortByLname()
+void SortByName()
 {
-  int i=0, j=0;
-
-  for(i=0; i<=count; i++)
-  {
-    for(j=i+1; j<count; j++)
+    int i=0, j=0;
+    
+    for(i=0; i<=count; i++)
     {
-      if(strcmp(c[i]->lastname,c[j]->lastname)>0)
-      {
-        Swapcontact(c[i],c[j]);
-      }
-  }
-}
-  for(i=0; i<=count; i++){
-    printf("%s,",c[i]->firstname);
-    printf("%s,",c[i]->lastname);
-    printf("%d-",c[i]->birth->day);
-    printf("%d-",c[i]->birth->month);
-    printf("%d,",c[i]->birth->year);
-    printf("%s,",c[i]->address);
-    printf("%s,",c[i]->phone);
-    printf("%s\n",c[i]->email);
+        for(j=i+1; j<count+1; j++)
+        {
+            if(strcmp(c[i]->lastname,c[j]->lastname)>0)
+            {
+                Swapcontact(c[i],c[j]);
+            }
+        }
+    }
+    for(i=0; i<=count; i++){
+        printf("%s,",c[i]->firstname);
+        printf("%s,",c[i]->lastname);
+        printf("%d-",c[i]->birth->day);
+        printf("%d-",c[i]->birth->month);
+        printf("%d,",c[i]->birth->year);
+        printf("%s,",c[i]->address);
+        printf("%s,",c[i]->phone);
+        printf("%s\n",c[i]->email);
         
-  }
+    }
 }
 
 void SortByDOB()
 {
-  int i=0, j=0;
-
-  for(i=0; i<=count; i++)
-  {
-    for(j=i+1; j<count; j++)
+    int i=0, j=0;
+    
+    for(i=0; i<=count; i++)
     {
-      if(c[i]->birth->year > c[j]->birth->year)
-      {
-        Swapcontact(c[i],c[j]);
-      }
-      else if (c[i]->birth->year == c[j]->birth->year)
-      {
-        if(c[i]->birth->month > c[j]->birth->month)
+        for(j=i+1; j<count+1; j++)
         {
-          Swapcontact(c[i],c[j]);
+            if(c[i]->birth->year > c[j]->birth->year)
+            {
+                Swapcontact(c[i],c[j]);
+            }
+            else if (c[i]->birth->year == c[j]->birth->year)
+            {
+                if(c[i]->birth->month > c[j]->birth->month)
+                {
+                    Swapcontact(c[i],c[j]);
+                }
+                else if (c[i]->birth->month == c[j]->birth->month)
+                {
+                    if(c[i]->birth->day > c[j]->birth->day)
+                    {
+                        Swapcontact(c[i],c[j]);
+                    }
+                }
+            }
         }
-        else if (c[i]->birth->month == c[j]->birth->month)
-        {
-          if(c[i]->birth->day > c[j]->birth->day)
-          {
-            Swapcontact(c[i],c[j]);
-          }
-        }  
-      }
-  }
-}
-
-for(i=0; i<=count; i++){
-    printf("%s,",c[i]->firstname);
-    printf("%s,",c[i]->lastname);
-    printf("%d-",c[i]->birth->day);
-    printf("%d-",c[i]->birth->month);
-    printf("%d,",c[i]->birth->year);
-    printf("%s,",c[i]->address);
-    printf("%s,",c[i]->phone);
-    printf("%s\n",c[i]->email);
+    }
+    
+    for(i=0; i<=count; i++){
+        printf("%s,",c[i]->firstname);
+        printf("%s,",c[i]->lastname);
+        printf("%d-",c[i]->birth->day);
+        printf("%d-",c[i]->birth->month);
+        printf("%d,",c[i]->birth->year);
+        printf("%s,",c[i]->address);
+        printf("%s,",c[i]->phone);
+        printf("%s\n",c[i]->email);
         
-  }
-
+    }
+    
 }
 
 void delete (){
-  int i,sum=0;
+    int i,sum=0;
     char *str = malloc(sizeof (char*));
     printf("please enter the first name needed to delete the contact:  ");
     scanf("%s",str);
@@ -276,11 +275,10 @@ void delete (){
     printf("please enter the last name needed to delete the contact:  ");
     scanf("%s",str1);
     int g;
-     char nullStr[20] = {"\0"};
-     for(i=0; i<=count; i++){
+    for(i=0; i<=count; i++){
         if(!strcmp(str,c[i]->firstname)&&!strcmp(str1,c[i]->lastname))
         {
-          
+            
             printf("The info of the contact: ");
             printf("%s,",c[i]->firstname);
             printf("%s,",c[i]->lastname);
@@ -294,24 +292,24 @@ void delete (){
             printf("Are you sure to delete this contact?\n yes=1 $$ no=2\n");
             scanf("%d",&g);
             if(g==1){
-              if(i==count){
-              count--;
-              printf("Contact is deleted!!");
-              break;
-              }
-              while(i<count){
-                c[i]->firstname=c[i+1]->firstname;
-                c[i]->lastname=c[i+1]->lastname;
-                c[i]->birth->day=c[i+1]->birth->day;
-                c[i]->birth->month=c[i+1]->birth->month;
-                c[i]->birth->year=c[i+1]->birth->year;
-                c[i]->address=c[i+1]->address;
-                c[i]->phone=c[i+1]->phone;
-                c[i]->email=c[i+1]->email;
-                i++;
-                
-              }
-              printf("Contact is deleted!!");
+                if(i==count){
+                    count--;
+                    printf("Contact is deleted!!");
+                    break;
+                }
+                while(i<count){
+                    c[i]->firstname=c[i+1]->firstname;
+                    c[i]->lastname=c[i+1]->lastname;
+                    c[i]->birth->day=c[i+1]->birth->day;
+                    c[i]->birth->month=c[i+1]->birth->month;
+                    c[i]->birth->year=c[i+1]->birth->year;
+                    c[i]->address=c[i+1]->address;
+                    c[i]->phone=c[i+1]->phone;
+                    c[i]->email=c[i+1]->email;
+                    i++;
+                    
+                }
+                printf("Contact is deleted!!");
             }
         }
     }
@@ -322,92 +320,93 @@ void delete (){
 
 void modify()
 {
-int i,sum=0;
+    int i;
     char *str = malloc(sizeof (char*));
-    printf("please enter the student last name needed to search for:  ");
+    printf("please enter the student last name you need to modify :  ");
     scanf("%s",str);
-    int g;
-     char nullStr[20] = {"\0"};
-     for(i=0; i<=count; i++){
+    int flag = 1;
+    for(i=0; i<=count; i++){
         if(!strcmp(str,c[i]->lastname))
         {
-          printf("what do you want to modify:\n  1->first name \n 2-> last name \n 3->address \n 4->email \n 5-> phone \n 6-> bithday ");
-int f;
-scanf("%d",&f);
-          switch(f){
+            flag = 0;
+            printf("what do you want to modify:\n 1->first name \n 2-> last name \n 3->address \n 4->email \n 5-> phone \n 6-> bithday ");
+            int f;
+            scanf("%d",&f);
+            switch(f){
             case 1:
-            printf("First name : ");
-    scanf("%s",c[i]->firstname);
-break;
-case 2:
-printf("Last name : ");
-    scanf("%s",c[i]->lastname);
-    break;
-    case 3:
-    printf("Address : ");
-    getchar();
-    gets(c[i]->address);
-    break;
-    case 4:
-    printf("email : ");
-    scanf("%s",c[i]->email);
-    while(!validateMail(c[i]->email)){
-      
-        printf("please enter correct email : ");
-        scanf("%s",c[i]->email);
-    }
-    break;
-    case 5:
-printf("Phone : ");
-    scanf("%s",c[i]->phone);
-    while(!validatePhone(c[i]->phone)){
-        printf("please enter correct phone number : ");
-        scanf("%s",c[i]->phone);
-    }
-    break;
-    case 6:
-printf("Birth day : ");
-    scanf("%d",&c[i]->birth->day);
-    printf("Birth month : ");
-    scanf("%d",&c[i]->birth->month);
-    printf("Birth year : ");
-    scanf("%d",&c[i]->birth->year);
-    while(!validateDate(c[i]->birth->day,c[i]->birth->month,c[i]->birth->year)){
-        printf("You entered inccorect date please try again \n");
-        printf("Birth day : ");
-        scanf("%d",&c[i]->birth->day);
-        printf("Birth month : ");
-        scanf("%d",&c[i]->birth->month);
-        printf("Birth year : ");
-        scanf("%d",&c[i]->birth->year);
-    }
-break;
-    
-          }
-
+                printf("First name : ");
+                scanf("%s",c[i]->firstname);
+                break;
+            case 2:
+                printf("Last name : ");
+                scanf("%s",c[i]->lastname);
+                break;
+            case 3:
+                printf("Address : ");
+                getchar();
+                gets(c[i]->address);
+                break;
+            case 4:
+                printf("email : ");
+                scanf("%s",c[i]->email);
+                while(!validateMail(c[i]->email)){
+                    
+                    printf("please enter correct email : ");
+                    scanf("%s",c[i]->email);
+                }
+                break;
+            case 5:
+                printf("Phone : ");
+                scanf("%s",c[i]->phone);
+                while(!validatePhone(c[i]->phone)){
+                    printf("please enter correct phone number : ");
+                    scanf("%s",c[i]->phone);
+                }
+                break;
+            case 6:
+                printf("Birth day : ");
+                scanf("%d",&c[i]->birth->day);
+                printf("Birth month : ");
+                scanf("%d",&c[i]->birth->month);
+                printf("Birth year : ");
+                scanf("%d",&c[i]->birth->year);
+                while(!validateDate(c[i]->birth->day,c[i]->birth->month,c[i]->birth->year)){
+                    printf("You entered inccorect date please try again \n");
+                    printf("Birth day : ");
+                    scanf("%d",&c[i]->birth->day);
+                    printf("Birth month : ");
+                    scanf("%d",&c[i]->birth->month);
+                    printf("Birth year : ");
+                    scanf("%d",&c[i]->birth->year);
+                }
+                break;
+                
             }
-        else 
-        printf("The name is not exist :( \n");
+            printf("Contact modified successfully\n");
+            break;
+        }
     }
+    if(flag) printf("The name is not exist :( \n");
+    
     
 }
 
-void print ()
+void print()
 {
-  int choice = 0;
-  printf("Choose the sorting type:\n1-Sort by Last Name  2-Sort by date of birth\n");
-  while (choice != 1 && choice != 2){
-    scanf("%d",&choice);
-    if (choice == 1){
-      SortByLname();
-      break;
+    int choice = 0;
+    printf("Choose the sorting type:\n1-Sort by Last Name  2-Sort by date of birth\n");
+    while (choice != 1 && choice != 2){
+        scanf("%d",&choice);
+        if (choice == 1){
+            SortByName();
+            break;
+        }
+        else if (choice == 2){
+            SortByDOB();
+            break;
+        }
+        printf("Please choose a valid option (1 or 2)\n");
     }
-    else if (choice == 2){
-      SortByDOB();
-      break;
-    }
-    printf("Please choose a valid option (1 or 2)\n");
-  }    
 }
 
 int save()
@@ -451,10 +450,10 @@ void quit(){
 int main()
 {
     printf("Welcome in telephone book program...\n");
-
+    
     while(1){
         printf("\nChoose the number of corresponding option do you want :-\n");
-
+        
         printf("1 -> Read from file\n");
         printf("2 -> Search\n");
         printf("3 -> Add\n");
@@ -463,7 +462,7 @@ int main()
         printf("6 -> Print\n");
         printf("7 -> Save\n");
         printf("8 -> Quit\n");
-
+        
         int choice;
         printf("Enter a number : ");
         scanf("%d",&choice);
@@ -472,7 +471,7 @@ int main()
             printf("Enter a number : ");
             scanf("%d",&choice);
         }
-
+        
         switch (choice) {
         case 1:
             load();
@@ -502,4 +501,5 @@ int main()
     }
     return 0;
 }
+
 

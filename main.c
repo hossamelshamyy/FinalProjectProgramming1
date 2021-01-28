@@ -339,7 +339,7 @@ void modify()
         if(!strcmp(str,c[i]->lastname))
         {
             flag = 0;
-            printf("what do you want to modify:\n 1->first name \n 2-> last name \n 3->address \n 4->email \n 5-> phone \n 6-> bithday ");
+            printf("what do you want to modify:\n 1->first name \n 2-> last name \n 3->address \n 4->email \n 5-> phone \n 6-> Birthday ");
             int f;
             scanf("%d",&f);
             switch(f){

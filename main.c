@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 typedef struct
 {
     int day,month,year;
@@ -15,6 +16,7 @@ typedef struct
 Contact* c[100];
 static int count= -1;
 int isSaved = 0;
+char * location;
 
 int validatePhone(char* phone){
     if(phone[0] == '0'){
@@ -22,7 +24,8 @@ int validatePhone(char* phone){
             return 1;
         else if(phone[1] != '0' && strlen(phone) == 9)
             return 1;
-    }
+    }else if(phone[0] == '+')
+        return 1;
     return 0;
 }
 int validateMail(char* mail){
@@ -41,12 +44,10 @@ int validateMail(char* mail){
             else return 0;
         }
     }
-    if(atCouter == 1 && dotCounter ==1)
+    if(atCouter == 1 && dotCounter >=1)
         return 1;
     return 0;
-    
 }
-
 int validateDate(int day,int month,int year){
     if(year>=1900 && year<=2021){
         if(month>=1 && month<=12){
@@ -95,26 +96,34 @@ Contact* createContact(char* firstname,char* lastname,char* address,char* email,
 
 void load()
 {
+    location = malloc(sizeof (char*)*15);
+    printf("Please enter the full path of the .txt file to load : ");
+    getchar();
+    gets(location);
     FILE*f;
-    f=fopen("/home/hossam/Workplace/QtProjects/FinalProjectProgramming1/tt.txt","r");
+    f=fopen(location,"r");
     if (f == NULL)
     {
-        printf("Error! opening file");
+        printf("Error opening file!\n");
         exit(1);
     }
     
     while(!feof(f))
     {
         count++;
-        char *firstname = malloc(sizeof (char*)),*lastname = malloc(sizeof (char*)),*address = malloc(sizeof (char*)),*email = malloc(sizeof (char*)),*phone_no = malloc(sizeof (char*));
+        char *firstname = malloc(sizeof (char*));
+        char *lastname = malloc(sizeof (char*));
+        char *address = malloc(sizeof (char*));
+        char *email = malloc(sizeof (char*));
+        char *phone_no = malloc(sizeof (char*));
         int day,month,year;
         fscanf(f,"%[^,],",firstname);
         fscanf(f,"%[^,],",lastname);
         fscanf(f,"%d-%d-%d,",&day,&month,&year);
         fscanf(f,"%[^,],",address);
         fscanf(f,"%[^,],",phone_no);
-        fscanf(f,"%s",email);
-        c[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year))
+        fscanf(f,"%s\n",email);
+        c[count] = createContact(firstname,lastname,address,email,phone_no,createDate(day,month,year));
     }
     
     fclose(f);
@@ -196,7 +205,7 @@ void Swapcontact(Contact*c, Contact*c2)
     *c2 = temp;
 }
 
-void SortByName()
+void SortByLastName()
 {
     int i=0, j=0;
     
@@ -398,7 +407,7 @@ void print()
     while (choice != 1 && choice != 2){
         scanf("%d",&choice);
         if (choice == 1){
-            SortByName();
+            SortByLastName();
             break;
         }
         else if (choice == 2){
@@ -409,10 +418,10 @@ void print()
     }
 }
 
-int save()
+void save()
 {
-    FILE*f;
-    f=fopen("/home/hossam/Workplace/QtProjects/FinalProjectProgramming1/saved.txt","w");
+    FILE* f;
+    f=fopen(location,"w");
     int i;
     for ( i = 0; i <= count ; i++){
         fprintf(f,"%s,",c[i]->firstname);
@@ -420,11 +429,10 @@ int save()
         fprintf(f,"%d-%d-%d,",c[i]->birth->day,c[i]->birth->month,c[i]->birth->year);
         fprintf(f,"%s,",c[i]->address);
         fprintf(f,"%s,",c[i]->phone);
-        fprintf(f,"%s",c[i]->email);
+        fprintf(f,"%s\n",c[i]->email);
     }
     isSaved=1;
     fclose(f);
-    return isSaved ;
 }
 
 void quit(){

@@ -1,7 +1,3 @@
-# FinalProjectProgramming1
+# Telephone book program
 
-Hossam -> main , add</br>
-Mina -> save , quit</br>
-Islam -> print , report</br>
-Hendawy -> delete , modify</br>
-Abdullah -> load , query</br>
+Simple telephone book program written in C
